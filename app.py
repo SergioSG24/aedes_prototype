@@ -242,14 +242,44 @@ color_res = (
     else "red"
 )
 
-st.markdown(f"""
+
+
+# Clasificación textual del riesgo
+if res_prob < 0.4:
+    nivel = "BAJA IDONEIDAD ECOLÓGICA"
+    descripcion = "Condiciones poco favorables para establecimiento de Aedes aegypti."
+    color_lateral = "#2E7D32"
+elif res_prob < 0.7:
+    nivel = "IDONEIDAD ECOLÓGICA MODERADA"
+    descripcion = "Condiciones parcialmente favorables para establecimiento de Aedes aegypti."
+    color_lateral = "#F9A825"
+else:
+    nivel = "ALTA IDONEIDAD ECOLÓGICA"
+    descripcion = "Condiciones óptimas para establecimiento de Aedes aegypti."
+    color_lateral = "#C62828"
+
+import streamlit.components.v1 as components
+
+components.html(f"""
 <div style="
-    background-color: {color_res};
-    padding: 20px;
-    border-radius: 10px;
-    text-align: center;">
-    <h2 style="color: white; margin: 0;">
-        Riesgo Estimado: {res_prob*100:.1f}%
-    </h2>
+    background-color: #F2F2F2;
+    padding: 18px 22px;
+    border-radius: 6px;
+    border-left: 6px solid {color_lateral};
+    margin-top: 10px;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+    font-family: sans-serif;
+">
+    <div style="font-size:18px; font-weight:700; color:#333;">
+        {nivel}
+    </div>
+
+    <div style="font-size:14px; color:#666; margin-top:6px;">
+        {descripcion}
+    </div>
+
+    <div style="font-size:13px; color:#444; margin-top:10px;">
+        Riesgo estimado: <strong>{res_prob*100:.1f}%</strong>
+    </div>
 </div>
-""", unsafe_allow_html=True)
+""", height=140)
